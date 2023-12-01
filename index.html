@@ -3,39 +3,66 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>XML Formatter</title>
+  <title>Code Beautifier</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism-dark.min.css">
+  <script src="vkbeautify.0.99.00.beta.js"></script>
   <style>
     body {
-      font-family: 'Arial', sans-serif;
-      margin: 20px;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background-color: #000;
     }
 
-    textarea {
-      width: 100%;
-      height: 200px;
+    #code-container {
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+    }
+
+    #code {
+      flex: 1;
+      font-family: 'Courier New', monospace;
+      font-size: 16px;
+      padding: 10px;
+      border: none;
+      background-color: #000;
+      color: #fff;
+      resize: none; /* Disable textarea resizing */
+      margin: 0; /* Remove margin */
+    }
+
+    #beautify-btn {
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        padding: 10px 15px;
+        background-color: #32a852;
+        color: #fff;
+        border: none;
+        cursor: pointer;
     }
   </style>
 </head>
 <body>
-  <h1>XML Formatter</h1>
-  <label for="xmlInput">Paste XML source:</label>
-  <textarea id="xmlInput" placeholder="Paste your XML here..."></textarea>
-  <button onclick="formatXML()">Format XML</button>
-  <h2>Formatted XML:</h2>
-  <textarea id="formattedXml" readonly></textarea>
+  <div id="code-container">
+    <textarea id="code" class="language-xml" placeholder="Paste your code here..."></textarea>
+    <button id="beautify-btn" onclick="beautifyCode()">Formater</button>
+  </div>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js"></script>
   <script>
-    function formatXML() {
-      const xmlInput = document.getElementById('xmlInput').value;
-      const formattedXml = format(xmlInput);
-      document.getElementById('formattedXml').value = formattedXml;
+    function beautifyCode() {
+      const inputCode = document.getElementById('code').value;
+      const beautifiedCode = xml_beautify(inputCode);
+      document.getElementById('code').value = beautifiedCode;
     }
 
-    function format(xml) {
-      const parser = new DOMParser();
-      const xmlDoc = parser.parseFromString(xml, 'application/xml');
-      const serializer = new XMLSerializer();
-      return serializer.serializeToString(xmlDoc);
+    function xml_beautify(input) {
+      return vkbeautify.xml(input);
     }
   </script>
 </body>
