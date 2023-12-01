@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>XML Formatter</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 20px;
+    }
+
+    textarea {
+      width: 100%;
+      height: 200px;
+    }
+  </style>
+</head>
+<body>
+  <h1>XML Formatter</h1>
+  <label for="xmlInput">Paste XML source:</label>
+  <textarea id="xmlInput" placeholder="Paste your XML here..."></textarea>
+  <button onclick="formatXML()">Format XML</button>
+  <h2>Formatted XML:</h2>
+  <textarea id="formattedXml" readonly></textarea>
+
+  <script>
+    function formatXML() {
+      const xmlInput = document.getElementById('xmlInput').value;
+      const formattedXml = format(xmlInput);
+      document.getElementById('formattedXml').value = formattedXml;
+    }
+
+    function format(xml) {
+      const parser = new DOMParser();
+      const xmlDoc = parser.parseFromString(xml, 'application/xml');
+      const serializer = new XMLSerializer();
+      return serializer.serializeToString(xmlDoc);
+    }
+  </script>
+</body>
+</html>
